@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 if _name_ == "_main_":
-    from sys import argv
+    import sys
     count = len(argv)
     add = 0
     if count == 1:
