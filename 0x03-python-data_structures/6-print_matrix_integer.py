@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # 6-print_matrix_integer.py
+# Benatha Simasiku <calvinbenatha@gmail.com>
 
 
 def print_matrix_integer(matrix=[[]]):
