@@ -6,7 +6,16 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
-
+if __name__ == "__main__":
+    db_conf = {
+        'host':     'localhost',
+        'user':     sys.argv[1],
+        'passwd':   sys.argv[2],
+        'db':       sys.argv[3],
+        'port':     3306
+    }
+    db = MySQLdb.connect(**db_conf)
+    cursor = db.cursor()
 
 class State(Base):
     """Represents a state for a MySQL database.
