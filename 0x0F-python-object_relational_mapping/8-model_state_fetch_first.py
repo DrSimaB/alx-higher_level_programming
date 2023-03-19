@@ -1,45 +1,22 @@
 #!/usr/bin/python3
-"""Start link class to table in database
-"""
+# Prints the first State object from the database hbtn_0e_6_usa.
+# Usage: ./8-model_state_fetch_first.py <mysql username> /
+#                                       <mysql password> /
+#                                       <database name>
 import sys
-import sqlalchemy
-from model_state import Base, State
 from sqlalchemy import create_engine
-from sqlalchemy.sql import select
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import Column, String, Integer
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm.exc import NoResultFound
-
-Base = declarative_base()
+from model_state import State
 
 if __name__ == "__main__":
-    class State(Base):
-        __tablename__ = "states"
-        id = Column(Integer, primary_key=True, nullable=False)
-        name = Column(String(256), nullable=False)
+    engine = create_engine("mysql+mysqldb://{}:{}@localhost/{}"
+                           .format(sys.argv[1], sys.argv[2], sys.argv[3]),
+                           pool_pre_ping=True)
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-        dialect = "mysql"
-        user = sys.argv[1]
-        passwd = sys.argv[2]
-        db = sys.argv[3]
-        host = "localhost"
-        port = 3306
-
-        engine = create_engine("{}://{}:{}@{}:{}/{}".format(
-            dialect,
-            user,
-            passwd,
-            host,
-            port,
-            db
-        ))
-        Session = sessionmaker()
-        Session.configure(bind=engine)
-        session = Session()
-        try:
-            state = session.query(State.id, State.name).first()
-            session.commit()
-            print("{}: {}".format(state[0], state[1]))
-        except TypeError:
-            print("")
+    state = session.query(State).order_by(State.id).first()
+    if state is None:
+        print("Nothing")
+    else:
+        print("{}: {}".format(state.id, state.name))
