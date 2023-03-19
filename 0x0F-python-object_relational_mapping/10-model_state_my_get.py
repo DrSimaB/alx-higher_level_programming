@@ -11,6 +11,15 @@ from sqlalchemy.orm import sessionmaker
 from model_state import State
 
 if __name__ == "__main__":
+    db_conf = {
+        'host':     'localhost',
+        'user':     sys.argv[1],
+        'passwd':   sys.argv[2],
+        'db':       sys.argv[3],
+        'port':     3306
+    }
+    db = MySQLdb.connect(**db_conf)
+    cursor = db.cursor()
     engine = create_engine("mysql+mysqldb://{}:{}@localhost/{}"
                            .format(sys.argv[1], sys.argv[2], sys.argv[3]),
                            pool_pre_ping=True)
