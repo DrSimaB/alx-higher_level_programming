@@ -1,5 +1,9 @@
 #!/usr/bin/node
 const fs = require('fs');
-fs.writeFile(process.argv[2], process.argv[3], error => {
-  if (error) console.log(error);
+const args = process.argv.slice(2);
+const file = args[0];
+const data = args[1];
+
+fs.writeFile(file, data, (err) => {
+  if (err) console.log(err);
 });
